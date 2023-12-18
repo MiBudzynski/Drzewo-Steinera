@@ -400,3 +400,45 @@ public:
 };
 
 int main() {
+    int n = 6, m = 4; // Liczba wierzchołków w grafie i liczba terminali
+    Graph g(n);
+
+    g.generate();
+
+    cout << "Wygenerowny graf:" << endl;
+    g.print();
+
+    //losowanie terminali
+    vector<bool> terminale(n, false);
+    for(int i = 0; i < m; i++)
+    {
+        int v = rand() % n;
+        if(!terminale[v])
+            terminale[v] = true;
+        else
+            i--;
+    }
+
+    cout<<"lista terminali:"<<endl;
+    for(int i = 0; i < n; i++)
+        if(terminale[i])
+            cout << i << " ";
+
+    cout << endl << "Drzewo Steinera algorytmem zachlannym:" << endl;
+    Graph z = g.zachlanny(terminale, m, false);
+    z.print();
+    
+    cout << "Drzewo Steinera ulosowionym algorytmem zachlannym:" << endl;
+    Graph u = g.zachlanny(terminale, m, true);
+    u.print();
+
+    cout << "Drzewo Steinera algorytmem pelnego przegladu:" << endl;
+    Graph b = g.silowy(terminale);
+    b.print();
+
+    cout << "Drzewo Steinera algorytmem z zakresu mataheurystyki (algorytm genetyczny):" << endl;
+    Graph a = g.metaheurystyka(terminale, g, 0);
+    a.print();
+
+    return 0;
+}
